@@ -10,15 +10,15 @@
             margin: 0;
             padding: 0;
             color: white;
-            font-size: 12px;
+            -webkit-text-size-adjust: none;
         }
 
         .content {
             width: 100%;
             height: 100%;
             position: relative;
-            font-size: 14px;
             background-color: gray;
+            font-size: 14px;
         }
 
         .block {
@@ -39,23 +39,27 @@
         }
 
         .left {
-            left: -100%;
+            left: 1em;
             top: 50%;
             margin-top: -1em;
         }
 
         .right {
-            right: -100%;
+            right: 1em;
             top: 50%;
             margin-top: -1em;
         }
 
         .top {
-            top: -50%;
+            top: 4em;
+            width: 100%;
+            text-align: center;
         }
 
         .bottom {
-            bottom: -50%;
+            bottom: 4em;
+            width: 100%;
+            text-align: center;
         }
 
         .center {
@@ -65,51 +69,54 @@
         }
 
         .alert {
-          position: absolute;
-          bottom: 5%;
-          width: 100%;
-          line-height: 28px;
-          text-align: center;
-        }
-        .btn {
-          display: inline-block;
-          user-select: none;
-          text-decoration: none;
-          white-space: nowrap;
-          vertical-align: middle;
-          cursor: pointer;
-          user-select: none;
-          border: 1px solid black;
-          background-color: black;
-          border-radius: 3px;
-          -webkit-appearance: none;
-          appearance: none;
-          padding: 3px 10px;
-          font-weight: 600;
-          line-height: 20px;
-          min-width: 70px;
-        }
-        #init {
-          position: absolute;
-          bottom: 5%;
-          left: 20%;
-        }
-        #destory {
-          position: absolute;
-          bottom: 5%;
-          right: 20%;
+            position: absolute;
+            bottom: 1em;
+            width: 100%;
+            line-height: 28px;
+            text-align: center;
         }
 
+        .btn {
+            display: inline-block;
+            user-select: none;
+            text-decoration: none;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid black;
+            background-color: black;
+            border-radius: 3px;
+            -webkit-appearance: none;
+            appearance: none;
+            padding: 3px 10px;
+            font-weight: 600;
+            line-height: 20px;
+            min-width: 70px;
+        }
+
+        #init {
+            position: absolute;
+            bottom: 1em;
+            left: 20%;
+        }
+
+        #destory {
+            position: absolute;
+            bottom: 1em;
+            right: 20%;
+        }
     </style>
 </head>
 
 <body>
     <div class="content">
+        <p class="tip top"></p>
+        <p class="tip bottom"></p>
+        <p class="tip left"></p>
+        <p class="tip right"></p>
+
         <div class="block">
-            <p class="tip top"></p>
-            <p class="tip bottom"></p>
-            <p class="tip left"></p>
-            <p class="tip right"></p>
             <p class="tip center"></p>
         </div>
         <p class="alert">init</p>
@@ -133,32 +140,47 @@
             $initBtn = $('#init'),
             $destoryBtn = $('#destory')
 
+        var moveX = 0,
+            moveY = 0
         var ori = new Orientation({
             onChange: function onChange(e) {
                 // console.log('e:', e)
-                $block[0].style = 'transform' + 'translate(' + e.leftSlant + 'px,' + e.forwardSlant + 'px)'
+                var limitX = document.documentElement.clientWidth / 2,
+                    limitY = document.documentElement.clientHeight / 2
+                moveX += e.rightSlant
+                moveY += e.forwardSlant
+                moveX = Math.abs(moveX) > limitX ? limitX * (moveX / Math.abs(moveX)) : moveX
+                moveY = Math.abs(moveY) > limitY ? limitY * (moveY / Math.abs(moveY)) : moveY
+                    // $block[0].style = 'transform:' + 'translate(' + e.leftSlant + 'px,' + e.forwardSlant + 'px)'
+                $block[0].style.transform = 'translate(' + moveX + 'px,' + moveY + 'px)'
 
                 $left[0].innerHTML = 'leftRotate:' + e.leftRotate + '<br>' +
-                    'leftSlant:' + e.leftSlant
+                    'leftSlant:' + e.leftSlant + '<br>' +
+                    'isLeft:' + e.isLeft
                 $right[0].innerHTML = 'rightRotate:' + e.rightRotate + '<br>' +
-                    'rightSlant:' + e.rightSlant
+                    'rightSlant:' + e.rightSlant + '<br>' +
+                    'isRight:' + e.isRight
                 $top[0].innerHTML = 'forwardSlant:' + e.forwardSlant + '<br>' +
-                    'relativeForwardSlant:' + e.relativeForwardSlant
+                    'isForward:' + e.isForward + '<br>' +
+                    'relativeForwardSlant:' + e.relativeForwardSlant + '<br>' +
+                    'isRelativeForward:' + e.isRelativeForward
                 $bottom[0].innerHTML = 'backwardSlant:' + e.backwardSlant + '<br>' +
-                    'relativeBackwardSlant:' + e.relativeBackwardSlant
+                    'isBackward:' + e.isBackward + '<br>' +
+                    'relativeBackwardSlant:' + e.relativeBackwardSlant + '<br>' +
+                    'isRelativeBackward:' + e.isRelativeBackward
 
                 $center[0].innerHTML = 'initForwardSlant:' + e.initForwardSlant
             }
         })
         ori.init()
 
-        $initBtn[0].onclick = function () {
-          $alert[0].innerHTML = 'init'
-          ori.init()
+        $initBtn[0].onclick = function() {
+            $alert[0].innerHTML = 'init'
+            ori.init()
         }
-        $destoryBtn[0].onclick = function () {
-          $alert[0].innerHTML = 'destory'
-          ori.destory()
+        $destoryBtn[0].onclick = function() {
+            $alert[0].innerHTML = 'destory'
+            ori.destory()
         }
     </script>
 </body>

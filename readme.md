@@ -2,11 +2,11 @@
 
 基于 `DeviceOrientationEvent` 封装，扩充了参数，使其更易于使用。
 
-[DEMO](https://orientation-wrapper-mpzbxdwdzk.now.sh/examples/show-case.html)
+[DEMO](https://orientation-wrapper-ntpuimsots.now.sh/examples/show-case.html)
 
 ## Usage
 
-支持 AMD、CMD或者直接引入。
+支持 AMD、CMD 或者直接引入。
 
 ```
 var Orientation = require('orientation-wrapper')
