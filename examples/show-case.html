@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             color: white;
+            font-size: 12px;
         }
 
         .content {
@@ -84,7 +85,6 @@
           -webkit-appearance: none;
           appearance: none;
           padding: 3px 10px;
-          font-size: 12px;
           font-weight: 600;
           line-height: 20px;
           min-width: 70px;
@@ -135,7 +135,7 @@
 
         var ori = new Orientation({
             onChange: function onChange(e) {
-                console.log('e:', e)
+                // console.log('e:', e)
                 $block[0].style = 'transform' + 'translate(' + e.leftSlant + 'px,' + e.forwardSlant + 'px)'
 
                 $left[0].innerHTML = 'leftRotate:' + e.leftRotate + '<br>' +

@@ -2,7 +2,7 @@
 
 基于 `DeviceOrientationEvent` 封装，扩充了参数，使其更易于使用。
 
-[DEMO](https://orientation-wrapper-hgcjjahnjr.now.sh/examples/show-case.html)
+[DEMO](https://orientation-wrapper-mpzbxdwdzk.now.sh/examples/show-case.html)
 
 ## Usage
 
