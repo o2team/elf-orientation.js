@@ -28,14 +28,30 @@
         }
 
         var data = {
+            initLeftRotate: undefined,
             initForwardSlant: opts.initForwardSlant,
             orientation: window.orientation || 0
         }
+
+        // iOS detection from: http://stackoverflow.com/a/9039885/177710
+        data.isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 
         this.handleDeviceOrientation = function(e) {
             var alpha = Math.floor(e.alpha)
             var beta = Math.floor(e.beta)
             var gamma = Math.floor(e.gamma)
+
+            // https://github.com/w3c/deviceorientation/issues/6
+            if (data.initLeftRotate === undefined) {
+              data.initLeftRotate = data.isIOS ? Math.floor(e.webkitCompassHeading) : alpha
+            }
+            // iOS 的 alpha 的已经是相对的了，不需要做处理
+            if (!data.isIOS) {
+              if (alpha > 0 || alpha < data.initLeftRotate) {
+                alpha += 360
+              }
+              alpha -= data.initLeftRotate
+            }
 
             data.leftRotate = alpha < 180 ? alpha : alpha - 360
             data.rightRotate = -data.leftRotate
