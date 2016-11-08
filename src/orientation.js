@@ -11,9 +11,10 @@
     }
 }(this, function() {
     var assign = Object.assign || function(base, extend) {
-        for (var prop in base) {
+        for (var prop in extend) {
             base[prop] = extend[prop]
         }
+        return base
     }
 
     var Orientation = function(options) {
