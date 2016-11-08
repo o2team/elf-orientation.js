@@ -1,0 +1,166 @@
+<!DOCTYP html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+
+        .content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            font-size: 14px;
+            background-color: gray;
+        }
+
+        .block {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -60px;
+            margin-top: -60px;
+            width: 120px;
+            height: 120px;
+            background-color: black;
+            border-radius: 100%;
+        }
+
+        .tip {
+            position: absolute;
+            display: block;
+        }
+
+        .left {
+            left: -100%;
+            top: 50%;
+            margin-top: -1em;
+        }
+
+        .right {
+            right: -100%;
+            top: 50%;
+            margin-top: -1em;
+        }
+
+        .top {
+            top: -50%;
+        }
+
+        .bottom {
+            bottom: -50%;
+        }
+
+        .center {
+            width: 120px;
+            line-height: 120px;
+            text-align: center;
+        }
+
+        .alert {
+          position: absolute;
+          bottom: 5%;
+          width: 100%;
+          line-height: 28px;
+          text-align: center;
+        }
+        .btn {
+          display: inline-block;
+          user-select: none;
+          text-decoration: none;
+          white-space: nowrap;
+          vertical-align: middle;
+          cursor: pointer;
+          user-select: none;
+          border: 1px solid black;
+          background-color: black;
+          border-radius: 3px;
+          -webkit-appearance: none;
+          appearance: none;
+          padding: 3px 10px;
+          font-size: 12px;
+          font-weight: 600;
+          line-height: 20px;
+          min-width: 70px;
+        }
+        #init {
+          position: absolute;
+          bottom: 5%;
+          left: 20%;
+        }
+        #destory {
+          position: absolute;
+          bottom: 5%;
+          right: 20%;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="block">
+            <p class="tip top"></p>
+            <p class="tip bottom"></p>
+            <p class="tip left"></p>
+            <p class="tip right"></p>
+            <p class="tip center"></p>
+        </div>
+        <p class="alert">init</p>
+        <button id="init" class="btn">Init</button>
+        <button id="destory" class="btn">Destory</button>
+    </div>
+
+    <script src="../src/orientation.js"></script>
+    <script type="text/javascript">
+        function $() {
+            return document.querySelectorAll.apply(document, arguments)
+        }
+
+        var $block = $('.block'),
+            $left = $('.left'),
+            $right = $('.right'),
+            $top = $('.top'),
+            $bottom = $('.bottom'),
+            $center = $('.center'),
+            $alert = $('.alert'),
+            $initBtn = $('#init'),
+            $destoryBtn = $('#destory')
+
+        var ori = new Orientation({
+            onChange: function onChange(e) {
+                console.log('e:', e)
+                $block[0].style = 'transform' + 'translate(' + e.leftSlant + 'px,' + e.forwardSlant + 'px)'
+
+                $left[0].innerHTML = 'leftRotate:' + e.leftRotate + '<br>' +
+                    'leftSlant:' + e.leftSlant
+                $right[0].innerHTML = 'rightRotate:' + e.rightRotate + '<br>' +
+                    'rightSlant:' + e.rightSlant
+                $top[0].innerHTML = 'forwardSlant:' + e.forwardSlant + '<br>' +
+                    'relativeForwardSlant:' + e.relativeForwardSlant
+                $bottom[0].innerHTML = 'backwardSlant:' + e.backwardSlant + '<br>' +
+                    'relativeBackwardSlant:' + e.relativeBackwardSlant
+
+                $center[0].innerHTML = 'initForwardSlant:' + e.initForwardSlant
+            }
+        })
+        ori.init()
+
+        $initBtn[0].onclick = function () {
+          $alert[0].innerHTML = 'init'
+          ori.init()
+        }
+        $destoryBtn[0].onclick = function () {
+          $alert[0].innerHTML = 'destory'
+          ori.destory()
+        }
+    </script>
+</body>
+
+</html>

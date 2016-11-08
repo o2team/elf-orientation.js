@@ -1,0 +1,11 @@
+{
+  "name": "orientation-wrapper",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/orientation.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Liucw",
+  "license": "MIT"
+}
