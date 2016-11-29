@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <meta name="format-detection" content="telephone=no">
+    <title>Orientation Demo</title>
     <style>
         * {
             margin: 0;
@@ -19,12 +20,23 @@
             position: relative;
             background-color: gray;
             font-size: 14px;
+            overflow: hidden;
         }
 
-        .block {
+        .center, .block {
             position: absolute;
             left: 50%;
             top: 50%;
+
+        }
+        .center {
+            width: 120px;
+            height: 60px;
+            margin-left: -60px;
+            margin-top: -30px;
+            text-align: center;
+        }
+        .block {
             margin-left: -60px;
             margin-top: -60px;
             width: 120px;
@@ -51,28 +63,28 @@
         }
 
         .top {
-            top: 4em;
+            top: 2em;
             width: 100%;
             text-align: center;
         }
 
         .bottom {
-            bottom: 4em;
+            bottom: 3em;
             width: 100%;
             text-align: center;
         }
 
-        .center {
+        .ball {
             width: 120px;
             line-height: 120px;
             text-align: center;
         }
 
-        .alert {
+        .btns {
+            position: absolute;
             position: absolute;
             bottom: 1em;
             width: 100%;
-            line-height: 28px;
             text-align: center;
         }
 
@@ -95,17 +107,12 @@
             min-width: 70px;
         }
 
-        #init {
-            position: absolute;
-            bottom: 1em;
-            left: 20%;
+        .btn.active {
+            color: black;
+            border: 1px solid white;
+            background-color: white;
         }
 
-        #destory {
-            position: absolute;
-            bottom: 1em;
-            right: 20%;
-        }
     </style>
 </head>
 
@@ -115,28 +122,30 @@
         <p class="tip bottom"></p>
         <p class="tip left"></p>
         <p class="tip right"></p>
+        <p class="tip center"> hahah </p>
 
         <div class="block">
-            <p class="tip center"></p>
+            <p class="tip ball"></p>
         </div>
-        <p class="alert">init</p>
-        <button id="init" class="btn">Init</button>
-        <button id="destory" class="btn">Destory</button>
+
+        <div class="btns">
+            <button id="init" class="btn active">Init</button>
+            <button id="pause" class="btn">Pause</button>
+            <button id="continue" class="btn">Continue</button>
+            <button id="destory" class="btn">Destory</button>
+        </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
     <script src="../src/orientation.js"></script>
     <script type="text/javascript">
-        function $() {
-            return document.querySelectorAll.apply(document, arguments)
-        }
-
         var $block = $('.block'),
             $left = $('.left'),
             $right = $('.right'),
             $top = $('.top'),
             $bottom = $('.bottom'),
             $center = $('.center'),
-            $alert = $('.alert'),
+            $ball = $('.ball'),
             $initBtn = $('#init'),
             $destoryBtn = $('#destory')
 
@@ -154,34 +163,42 @@
                     // $block[0].style = 'transform:' + 'translate(' + e.leftSlant + 'px,' + e.forwardSlant + 'px)'
                 $block[0].style.transform = 'translate(' + moveX + 'px,' + moveY + 'px)'
 
-                $left[0].innerHTML = 'leftRotate:' + e.leftRotate + '<br>' +
-                    'leftSlant:' + e.leftSlant + '<br>' +
+                $left[0].innerHTML = 'leftRotate:' + Math.floor(e.leftRotate) + '<br>' +
+                    'leftSlant:' + Math.floor(e.leftSlant) + '<br>' +
                     'isLeft:' + e.isLeft
-                $right[0].innerHTML = 'rightRotate:' + e.rightRotate + '<br>' +
-                    'rightSlant:' + e.rightSlant + '<br>' +
+                $right[0].innerHTML = 'rightRotate:' + Math.floor(e.rightRotate) + '<br>' +
+                    'rightSlant:' + Math.floor(e.rightSlant) + '<br>' +
                     'isRight:' + e.isRight
-                $top[0].innerHTML = 'forwardSlant:' + e.forwardSlant + '<br>' +
+                $top[0].innerHTML = 'forwardSlant:' + Math.floor(e.forwardSlant) + '<br>' +
                     'isForward:' + e.isForward + '<br>' +
-                    'relativeForwardSlant:' + e.relativeForwardSlant + '<br>' +
+                    'relativeForwardSlant:' + Math.floor(e.relativeForwardSlant) + '<br>' +
                     'isRelativeForward:' + e.isRelativeForward
-                $bottom[0].innerHTML = 'backwardSlant:' + e.backwardSlant + '<br>' +
+                $bottom[0].innerHTML = 'backwardSlant:' + Math.floor(e.backwardSlant) + '<br>' +
                     'isBackward:' + e.isBackward + '<br>' +
-                    'relativeBackwardSlant:' + e.relativeBackwardSlant + '<br>' +
+                    'relativeBackwardSlant:' + Math.floor(e.relativeBackwardSlant) + '<br>' +
                     'isRelativeBackward:' + e.isRelativeBackward
-
-                $center[0].innerHTML = 'initForwardSlant:' + e.initForwardSlant
+                $center[0].innerHTML =
+                    // 'alpha:' + Math.floor(e.alpha) + '<br>' +
+                    // 'beta:' + Math.floor(e.beta) + '<br>' +
+                    // 'gamma:' + Math.floor(e.gamma) + '<br>' +
+                    // 'orientation' + e.orientation + '<br>' +
+                    'lon:' + Math.floor(e.lon) + '<br>' +
+                    'lat:' + Math.floor(e.lat) + '<br>' +
+                    'offsetLon:' + Math.floor(e.offsetLon * 1000) / 1000 + '<br>' +
+                    'offsetLat:' + Math.floor(e.offsetLat * 1000) / 1000
+                $ball[0].innerHTML = 'initForwardSlant:' + Math.floor(e.initForwardSlant)
             }
         })
         ori.init()
 
-        $initBtn[0].onclick = function() {
-            $alert[0].innerHTML = 'init'
-            ori.init()
-        }
-        $destoryBtn[0].onclick = function() {
-            $alert[0].innerHTML = 'destory'
-            ori.destory()
-        }
+        $('.btns').on('click', '.btn', function(e) {
+            $('.btns .btn').removeClass('active')
+            var $btn = $(e.target)
+            $btn.addClass('active')
+            var id = $btn.attr('id')
+            ori[id] && ori[id]()
+
+        })
     </script>
 </body>
 
