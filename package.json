@@ -1,11 +1,22 @@
 {
-  "name": "orientation-wrapper",
-  "version": "0.0.0",
-  "description": "",
+  "name": "orientation.js",
+  "version": "1.0.0",
+  "description": "A js library extend on DeviceOrientation Event",
   "main": "src/orientation.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/o2team/elf-orientation.js.git"
+  },
+  "keywords": [
+    "device",
+    "orientation"
+  ],
+  "bugs": {
+    "url": "https://github.com/o2team/elf-orientation.js/issues"
+  },
+  "homepage": "https://github.com/o2team/elf-orientation.js#readme",
   "author": "Liucw",
   "license": "MIT"
 }
